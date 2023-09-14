@@ -1,6 +1,6 @@
 class MyCSV
   def self.generate_sample_csv
-    File.open('sample.csv', 'w') do |writer|
+    File.open("sample.csv", "w") do |writer|
       writer << "JAN,340,360,417\n"
       writer << "FEB,318,342,391\n"
       writer << "MAR,362,406,419\n"
@@ -23,5 +23,4 @@ end
 MyCSV.generate_sample_csv
 puts MyCSV.parse("sample.csv").inspect
 
-# Try to download a huge CSV file 1GB and try to parse it, seekp tellp 
-
+# Try to download a huge CSV file 1GB and try to parse it, seekp tellp

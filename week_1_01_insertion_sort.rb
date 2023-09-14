@@ -7,7 +7,7 @@ input = gets.chomp
 if input == ""
   list = [5, 2, 4, 6, 1, 3]
 else
-  list = input.split(",").map(&:strip).reject{ |e| e == "" }.map(&:to_i)
+  list = input.split(",").map(&:strip).reject { |e| e == "" }.map(&:to_i)
 end
 
 i = 1

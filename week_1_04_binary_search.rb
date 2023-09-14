@@ -16,7 +16,6 @@ def binary_search(array, key)
 end
 binary_search([1, 2, 4, 5, 7, 9, 10], 10)
 
-
 def binary_search(array, key, low, high)
   return -1 if low > high
   mid = (low + high) / 2
@@ -37,4 +36,3 @@ end
 call_binary_search([1, 2, 4, 5, 7, 9], 9)
 
 # Always add all types of test cases
-
