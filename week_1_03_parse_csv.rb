@@ -16,9 +16,12 @@ class MyCSV
     end
   end
 
-  def self.parse(file_path)
-    File.read(file_path).split("\n").map{ |row| row.split(",") }
+  def self.parse(file_path, col_separator = ",", row_separator = "\n")
+    File.read(file_path).split(row_separator).map { |row| row.split(col_separator) }
   end
 end
 MyCSV.generate_sample_csv
 puts MyCSV.parse("sample.csv").inspect
+
+# Try to download a huge CSV file 1GB and try to parse it, seekp tellp 
+

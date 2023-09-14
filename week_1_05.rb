@@ -14,4 +14,7 @@ def fibonacci(n)
   end
   fibonacci(n - 1) + fibonacci(n - 2)
 end
-fibonacci(2)
+fibonacci(100)
+
+# use memoization, to increase efficiency
+# Try to solve iteratively

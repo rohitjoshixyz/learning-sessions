@@ -23,3 +23,7 @@ while i < list.length
   i += 1
 end
 puts list.inspect
+
+# Implement the wikipedia version later https://en.wikipedia.org/wiki/Insertion_sort
+
+# Try to use for loop and each with range
