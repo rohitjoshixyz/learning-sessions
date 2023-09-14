@@ -1,3 +1,13 @@
+# Week 1:
+
+# - Insertion sort
+# - Binary search
+# - Reverse Polish Notation
+# - Number factorization (converting a number into multiplication of prime numbers)
+# - Simple recursive functions (factorial, fibonacci)
+# - Implement Email Address value object in Ruby (try to make it behave like a string, inspect)
+# - Parse CSV with pure Ruby (no gems)
+
 # Insertion sort works by taking elements from the unsorted list and inserting them at the correct position in the sorted list.
 # The key you select is started at position 1 and we move it into the sorted array by shifting all elements greater than the key in the sorted list to the right
 
