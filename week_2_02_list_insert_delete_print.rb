@@ -14,22 +14,40 @@ class List
 
   def print
     pointer = @head
-
+    output = []
     while pointer != nil
-      puts pointer.data
+      output << pointer.data
       pointer = pointer.next_node
     end
+    p output
   end
 
-  def insert(number)
+  def insert(value)
     if @head == nil
-      @head = Node.new(number, nil)
+      @head = Node.new(value, nil)
     else
       pointer = @head
       while pointer.next_node != nil
         pointer = pointer.next_node
       end
-      pointer.next_node = Node.new(number, nil)
+      pointer.next_node = Node.new(value, nil)
+    end
+  end
+
+  def delete(value)
+    return if @head == nil
+
+    if @head.data == value
+      @head = @head.next_node
+    end
+
+    pointer = @head
+    while pointer.next_node != nil
+      if pointer.next_node.data == value
+        pointer.next_node = pointer.next_node.next_node
+      else
+        pointer = pointer.next_node
+      end
     end
   end
 end
@@ -38,4 +56,5 @@ list = List.new
 list.insert(5)
 list.insert(6)
 list.insert(7)
+list.delete(6)
 list.print

@@ -10,6 +10,6 @@ def solve(array)
       stack.push(result)
     end
   end
-  stack[0]
+  puts "Answer for #{array} is #{stack[0]}"
 end
 solve([4, 2, "/"])
