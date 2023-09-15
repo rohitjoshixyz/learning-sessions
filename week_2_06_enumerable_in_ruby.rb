@@ -7,23 +7,37 @@ module MyEnumerable
     end
   end
 
-  def my_all?(array, value, &block)
-    if [true, false].my_include?(value)
-      array.reduce{|result, element|  }
+  # https://ruby-doc.org/3.2.2/Enumerable.html#method-i-all-3F
+  def my_all?(array, value = nil, &block)
+    if block_given?
+      !!array.reduce(true) do |result, element|
+        result &&= block.call(element)
+        result
+      end
+    elsif value == nil
+      !!array.reduce(true) do |result, element|
+        result && element
+      end
     elsif value.is_a?(Regexp)
-    
-    elsif block_given?
-
+      !!array.reduce(true) do |result, element|
+        result &&= value.match(element)
+        result
+      end
     end
+  end
 
-    array.reduce(true) do |result, element|
-      result &&= (element == value)
+  def my_sum(array)
+    array.reduce do |result, element|
+      result += element
     end
+  end
+
+  def my_each(array, &block)
   end
 end
-
-def my_sum(array)
-  array.reduce do |result, element|
-    result += element 
-  end
+include MyEnumerable
+puts my_all?([1, 2, false])
+puts my_all?([3, 4, 5]) do |e|
+  puts "e is #{e}"
+  e > 7
 end
