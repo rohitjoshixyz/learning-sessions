@@ -1,13 +1,3 @@
-# Week 1:
-
-# - Insertion sort
-# - Binary search
-# - Reverse Polish Notation
-# - Number factorization (converting a number into multiplication of prime numbers)
-# - Simple recursive functions (factorial, fibonacci)
-# - Implement Email Address value object in Ruby (try to make it behave like a string, inspect)
-# - Parse CSV with pure Ruby (no gems)
-
 puts "Week 1: Insertion sort"
 puts "Enter comma separated list like 5, 2, 4, 6, 1, 3 for custom unsorted array, or press just press enter to use the example array"
 input = gets.chomp

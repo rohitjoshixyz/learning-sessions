@@ -1,8 +1,4 @@
-files.each do |file|
-  file =  file.split("/").last
-  puts file.class
-  sh.system("mv", file, "#{file.gsub(".rb")}/solution.rb")
-endxml = <<~STR
+xml = <<~STR
 <note>
   <to>Tove</to>
   <from>Jani</from>
