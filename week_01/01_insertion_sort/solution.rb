@@ -8,9 +8,6 @@
 # - Implement Email Address value object in Ruby (try to make it behave like a string, inspect)
 # - Parse CSV with pure Ruby (no gems)
 
-# Insertion sort works by taking elements from the unsorted list and inserting them at the correct position in the sorted list.
-# The key you select is started at position 1 and we move it into the sorted array by shifting all elements greater than the key in the sorted list to the right
-
 puts "Week 1: Insertion sort"
 puts "Enter comma separated list like 5, 2, 4, 6, 1, 3 for custom unsorted array, or press just press enter to use the example array"
 input = gets.chomp
