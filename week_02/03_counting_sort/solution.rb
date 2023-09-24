@@ -16,7 +16,3 @@ def counting_sort(input)
   output
 end
 puts counting_sort([3, 4, 2, 2, 1, 5]).inspect
-
-# Try counting sort with hash
-# Try with cumulative sum to make it stable
-# Use objects with name, age, sorted by name first and then sort by age using counting sort

@@ -24,4 +24,3 @@ class XmlParser
 end
 
 XmlParser.parse(xml)
-
