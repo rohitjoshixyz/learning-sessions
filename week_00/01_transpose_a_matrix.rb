@@ -1,6 +1,3 @@
-
-# Write a program that transposes a matrix
-
 matrix = [
   [1, 2, 3, 4],
   [5, 6, 7, 8],

@@ -24,3 +24,12 @@ class XmlParser
 end
 
 XmlParser.parse(xml)
+
+
+class Node
+  def initialize
+    @content = ""
+    @attributes = {}
+    @children = []
+  end
+end

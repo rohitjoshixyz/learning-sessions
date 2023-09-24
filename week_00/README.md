@@ -1,19 +1,19 @@
-# Week 0
-Internal tools team @ Circle have a weekly learning session meeting every friday to develop me into a proficient engineer.
-One friday, Michal gave me an interview question and asked me to solve it live.
+# Week 1
 
-It was to write a program in Ruby that will transpose a matrix. I took way long to write the program and Michal had to prompt hints to me multiple times.
+### Title: Transpose a matrix
 
-This was an eye opener and we felt th need to work towards improving this in a tangible measurable way.
+### Problem statement
+Write a program that transposes a M x N matrix to become N x M
+For example
 
-- Brush up the basics of DSA
-- Make Ruby foundations strong
-- Go deeper into the Rails architecture
-- Learn the tools and languages around like SQL, Javascript for wholistic development
+#### Before transpose
+1, 2, 3, 4
+5, 6, 7, 8
+44, 55, 66, 77
 
-This repository is the attempt to address this need.
-
-Every friday, I will receive a new set of problems and I will dedicate atleast 30 mins everyday to solve them.
-I will upload my progress in this repo at EOD, for Michal to review/comment or just for documentation and consistency.
-
-During the subsequent learning session, we will go through last week's programs and have interesting discussions.
+#### After transpose
+1 5 44
+2 6 55
+3 7 66
+4 8 77
+### Comments/Description/Learnings
