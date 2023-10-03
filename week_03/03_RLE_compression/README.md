@@ -14,3 +14,7 @@ output = "a6b4z4"
 https://en.wikipedia.org/wiki/Run-length_encoding
 
 
+Try to use string scanner class
+
+My implementation will fail for more than 10 digits,
+ALSO OUTPUT ANYTHING LEFT IN STACK
