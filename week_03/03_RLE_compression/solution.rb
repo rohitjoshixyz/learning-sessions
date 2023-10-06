@@ -1,4 +1,6 @@
 # RLE compression
+require "strscan"
+
 input = "aaaaaabbbbzzzz"
 
 def compress(input)
@@ -24,25 +26,31 @@ def compress(input)
 end
 
 def extract(input)
-  array = input.split("")
+  scanner = StringScanner.new(input)
   output = ""
   stack = []
-  array.each do |char|
-    if char.match(/^[[:alpha:]]$/)
+
+  while !scanner.eos?
+    if char = scanner.scan(/[[:alpha:]]/)
       stack.push(char)
-    else
+    elsif num = scanner.scan(/\d+/)
       while stack.length > 1
         output << stack.shift
       end
       letter_to_repeat = stack.pop()
-      output << letter_to_repeat * char.to_i
+      output << letter_to_repeat * num.to_i
+    else
+      scanner.pos += 1
     end
   end
+
+  output << stack.join
   output
 end
 
+puts extract("a7b4z4sasfds3xyz")
 puts compress("aaaaaabbbbzzzzsasfdsssxyz")
 puts extract("a7b4z4sasfds3xyz")
 puts compress("a")
-puts extract("a6b4z4")
+puts extract("a16b14z4")
 puts extract("a6b4kwmvz4")
