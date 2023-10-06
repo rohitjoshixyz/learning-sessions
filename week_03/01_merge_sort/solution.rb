@@ -22,13 +22,13 @@ def merge_sort(array)
       k += 1
     end
 
-    if i < left.length
+    while i < left.length
       array[k] = left[i]
       i += 1
       k += 1
     end
 
-    if j < right.length
+    while j < right.length
       array[k] = right[j]
       j += 1
       k += 1
@@ -37,3 +37,4 @@ def merge_sort(array)
   array
 end
 puts merge_sort([21, 43, 73, 8, 15]).inspect
+puts [21, 43, 73, 8, 15].sort.inspect
