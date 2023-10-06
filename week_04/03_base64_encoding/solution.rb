@@ -49,4 +49,3 @@ puts Base64.strict_encode64("A")
 
 # puts base64_encode("=")
 puts Base64.strict_encode64(" ")
-
