@@ -39,6 +39,7 @@ class List
 
     if @head.data == value
       @head = @head.next_node
+      return
     end
 
     pointer = @head
@@ -51,10 +52,3 @@ class List
     end
   end
 end
-
-list = List.new
-list.insert(5)
-list.insert(6)
-list.insert(7)
-list.delete(6)
-list.print
