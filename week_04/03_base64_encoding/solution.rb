@@ -52,7 +52,6 @@ def base64_decode(base64_string) # Um9oaXRKb3M=
   decoded_string
 end
 
-
 puts convert_to_ascii_binary("RohitJos", spaces: true)
 puts base64_encode("RohitJos")
 puts Base64.encode64("RohitJos")
