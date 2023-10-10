@@ -25,7 +25,6 @@ end
 
 XmlParser.parse(xml)
 
-
 class Node
   def initialize
     @content = ""
