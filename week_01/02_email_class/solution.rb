@@ -24,15 +24,3 @@ class Email
     @email.split("@").first
   end
 end
-
-def Email(email)
-  Email.new(email)
-end
-
-valid_email = Email.new("rohit@circle.co")
-puts valid_email
-
-invalid_email = Email.new("invalid_email")
-puts invalid_email
-
-# Integer(5)
