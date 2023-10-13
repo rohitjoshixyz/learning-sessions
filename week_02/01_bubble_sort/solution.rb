@@ -1,12 +1,3 @@
-# Week 2:
-
-# - Bubble sort
-# - Counting sort (stable algorithms)
-# - Implement Caesar cipher
-# - Implement List data structure in Ruby
-# - Implement Enumerable for List
-# - Implement Duration value object in Ruby (try to make it behave like a number, add Comparable, + - operators)
-# - Parse XML with pure Ruby (no gems)
 class Solution
   def call(input)
     len = input.length
@@ -24,4 +15,3 @@ class Solution
     input
   end
 end
-

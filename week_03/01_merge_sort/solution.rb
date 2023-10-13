@@ -1,11 +1,13 @@
+class Solution
+  def call(input)
+    merge_sort(input)
+  end
+end
 def merge_sort(array)
   if array.length > 1
     mid = array.length / 2
-    puts "left"
-    p left = array[0...mid]
-    puts "right"
-    p right = array[mid..(array.length - 1)]
-    puts ""
+    left = array[0...mid]
+    right = array[mid..(array.length - 1)]
     merge_sort(left)
     merge_sort(right)
 
@@ -36,5 +38,4 @@ def merge_sort(array)
   end
   array
 end
-puts merge_sort([21, 43, 73, 8, 15]).inspect
-puts [21, 43, 73, 8, 15].sort.inspect
+
