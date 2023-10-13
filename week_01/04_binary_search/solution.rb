@@ -2,9 +2,11 @@ class Solution
   def non_recursive_binary_search(array, key)
     low = 0
     high = array.length - 1
+
     while low <= high do
       mid = (low + high) / 2
-      puts "low #{low}, mid #{mid}, high #{high}"
+      # puts "low #{low}, mid #{mid}, high #{high}"
+
       if array[mid] == key
         return mid
       elsif key < array[mid]
@@ -13,12 +15,15 @@ class Solution
         low = mid + 1
       end
     end
-    -1
+
+    nil
   end
 
   def recursive_binary_search(array, key, low, high)
-    return -1 if low > high
+    return nil if low > high
+
     mid = (low + high) / 2
+
     if array[mid] == key
       mid
     elsif key < array[mid]

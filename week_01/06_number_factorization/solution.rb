@@ -23,10 +23,12 @@ class Solution
 
   def prime_factorize(value)
     return [] if value <= 1
+
     number = value
     factors = []
     upper_bound = Math.sqrt(number).ceil
     factor_found = false
+
     while number > 1
       (2..upper_bound).each do |factor|
         if number % factor == 0
@@ -36,14 +38,16 @@ class Solution
           break
         end
       end
+
       break unless factor_found
     end
+
     if factor_found
       divisors = factors.tally.values.map { |count| count + 1 }.inject(:*)
-      puts "#{factors} are the prime factors of #{value}. It has #{divisors} total divisors"
+      # puts "#{factors} are the prime factors of #{value}. It has #{divisors} total divisors"
       factors
     else
-      puts "#{value} is a prime number"
+      # puts "#{value} is a prime number"
       [value]
     end
   end
