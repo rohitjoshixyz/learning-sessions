@@ -14,5 +14,9 @@ class Test < Minitest::Test
     assert_raises(RuntimeError, "Not a valid email") do
       Email.new("invalid_email")
     end
+
+    assert_raises(RuntimeError, "Not a valid email") do
+      Email.new(".email@example.com")
+    end
   end
 end

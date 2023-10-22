@@ -1,8 +1,9 @@
 # Week 1
 
-### Title: 
+### Title:
 
 ### Problem statement
+
 Write a program that finds the number of prime factors of a given number.
 For example
 12 = 2 * 2 * 3
@@ -21,6 +22,7 @@ For 48
 # {2: 4, 3: 1}
 
 ### Comments/Description/Learnings
+
 Fun fact: Add one to the count of each prime factor and multiply it, it will give you the number of divisors of that number
 
 5*2 =  10 divisors
