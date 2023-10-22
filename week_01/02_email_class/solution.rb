@@ -1,5 +1,5 @@
 class Email
-  EMAIL_REGEX = Regexp.new("^[A-Za-z0-9+_.-]+@(.+)$").freeze
+  EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
   def initialize(email)
     if EMAIL_REGEX.match?(email)
       @email = email
@@ -9,6 +9,10 @@ class Email
   end
 
   def to_s
+    @email.to_s
+  end
+
+  def to_str
     @email.to_s
   end
 
