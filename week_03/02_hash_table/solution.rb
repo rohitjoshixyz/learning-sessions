@@ -10,8 +10,18 @@ class Node
 end
 
 class List
+  include Enumerable
+
   def initialize
     @head = nil
+  end
+
+  def each(&block)
+    pointer = @head
+    while pointer != nil
+      yield pointer
+      pointer = pointer.next_node
+    end
   end
 
   def print
@@ -21,7 +31,7 @@ class List
       output << pointer.data
       pointer = pointer.next_node
     end
-    p output
+    output
   end
 
   def insert(value)
@@ -91,15 +101,17 @@ class HashTable
 
   def get(key)
     if !@buckets[hash(key)].nil?
-      puts @buckets[hash(key)].retrieve(key)
+      @buckets[hash(key)].retrieve(key)
     end
   end
 
-  def print
-    @buckets.compact.each do |bucket|
-      bucket.print
+    def print
+      @buckets.map do |list|
+        if list != nil
+          list.print
+        end
+      end.compact
     end
-  end
 
   def delete(key)
     if !@buckets[hash(key)].nil?
@@ -120,7 +132,7 @@ ht.get(2005)
 ht.get(1)
 ht.get(1007)
 ht.delete(4005)
-ht.print
+p ht.print
 
 # 2
 # 7
