@@ -21,6 +21,6 @@ class MyCSV
   end
 end
 MyCSV.generate_sample_csv
-puts MyCSV.parse("sample.csv").inspect
+MyCSV.parse("sample.csv").inspect
 
 # Try to download a huge CSV file 1GB and try to parse it, seekp tellp
