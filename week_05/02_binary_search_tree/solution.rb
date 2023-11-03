@@ -1,5 +1,5 @@
 class Node
-  # include Comparable
+  include Comparable
   attr_accessor :data, :left, :right
 
   def initialize(data)
@@ -8,9 +8,9 @@ class Node
     @right = nil
   end
 
-  # def <=>(other)
-  #   @data <=> other.data
-  # end
+  def <=>(other)
+    @data <=> other.data
+  end
 end
 
 class BST
@@ -21,88 +21,84 @@ class BST
   end
 
   def add(data)
-    @root = add_node(@root, data)
+    @root = add_node(@root, Node.new(data))
   end
 
   def remove(data)
-    remove_node(@root, data)
+    @root = remove_node(@root, data)
   end
 
   def traverse(type)
+    result = []
     case type
     when "preorder"
-      p preorder(@root, [])
+      result = preorder(@root)
     when "inorder"
-      p inorder(@root, [])
+      result = inorder(@root)
     when "postorder"
-      p postorder(@root, [])
+      result = postorder(@root)
     end
+    p result
   end
 
   private
-    def add_node(root, data)
-      if root == nil
-        return Node.new(data)
-      end
+    def add_node(root, new_node)
+      return new_node if root.nil?
 
-      if data < root.data
-        root.left = add_node(root.left, data)
-      elsif data > root.data
-        root.right = add_node(root.right, data)
+      if new_node < root
+        root.left = add_node(root.left, new_node)
+      elsif new_node > root
+        root.right = add_node(root.right, new_node)
       end
       root
     end
 
-    # Incomplete
     def remove_node(root, data)
-      if root == nil
-        return root
-      end
+      return root if root.nil?
 
-      if root < data
-        remove_node(root.left, data)
-      elsif root > data
-        remove_node(root.right, data)
-      end
-
-      # We reach here when root is the node to be deleted
-      if root.left == nil
-        root.right
-      elsif root.right == nil
-        root.left
+      if data < root.data
+        root.left = remove_node(root.left, data)
+      elsif data > root.data
+        root.right = remove_node(root.right, data)
       else
-        succ_parent = root
-        succ = root.right;
-        while succ.left != nil do
-          succ_parent = succ
-          succ = succ.left
+        if root.left.nil?
+          return root.right
+        elsif root.right.nil?
+          return root.left
         end
-        succ = root.right
+
+        # minimum value of right subtree will be the inorder successor
+        root.data = min_value(root.right)
+        root.right = remove_node(root.right, root.data)
       end
+
+      root
     end
 
-    def preorder(root, array)
-      return array if root == nil
-
-      array.push(root.data)
-      preorder(root.left, array)
-      preorder(root.right, array)
+    def min_value(node)
+      current = node
+      while current.left
+        current = current.left
+      end
+      current.data
     end
 
-    def inorder(root, array)
-      return array if root == nil
+    def preorder(root)
+      return [] if root.nil?
 
-      inorder(root.left, array)
-      array.push(root.data)
-      inorder(root.right, array)
+      [root.data] + preorder(root.left) + preorder(root.right)
     end
 
-    def postorder(root, array)
-      return array if root == nil
+    def inorder(root)
+      return [] if root.nil?
 
-      postorder(root.left, array)
-      postorder(root.right, array)
-      array.push(root.data)
+      inorder(root.left) + [root.data] + inorder(root.right)
+    end
+
+    def postorder(root)
+      return [] if root.nil?
+
+      postorder(root.left) + postorder(root.right) + [root.data]
     end
 end
 
@@ -111,13 +107,11 @@ tree.add(5)
 tree.add(2)
 tree.add(7)
 tree.add(12)
-# puts tree.root.data
+puts tree.root.data
 tree.traverse("preorder")
 tree.traverse("inorder")
 tree.traverse("postorder")
-
-
-
-#       5
-# 2           7
-#                 12
+tree.remove(2)
+tree.traverse("inorder")
+tree.remove(7)
+tree.traverse("inorder")
