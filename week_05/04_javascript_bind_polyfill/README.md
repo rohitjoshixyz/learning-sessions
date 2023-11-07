@@ -1,9 +1,9 @@
-# Week 3 .
+# Week 5
 
-### Title: Binary search tree
+### Title: Javascript polyfill
 
 ### Problem statement
-Write a program in Javascript to implement the bind polyfill
+Write a program in Javascript to implement the bind polyfill, and learn about apply and call methods.
 
 ### Comments/Description/Learnings
 https://www.w3schools.com/js/js_object_prototypes.asp

@@ -1,6 +1,6 @@
 class Solution
   def call(input)
-    
+    input.sort_by { |item| item.scan(/\d+/).first.to_i }
   end
 end
 

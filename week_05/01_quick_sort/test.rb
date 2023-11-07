@@ -29,4 +29,11 @@ class Test < Minitest::Test
     expected_output = [1]
     assert_equal expected_output, @solution.call(input)
   end
+
+  def test_very_large_input
+    input = Array.new(1000) { rand(1..1000) }
+
+    expected_output = input.sort
+    assert_equal expected_output, @solution.call(input)
+  end
 end

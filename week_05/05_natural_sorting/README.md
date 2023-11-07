@@ -1,9 +1,8 @@
-# Week 3 .
+# Week 5
 
-### Title: Merge sort
+### Title: Natural sort
 
 ### Problem statement
-Write a program in Ruby that implements natural sort
+Write a program in Ruby that implements natural sort (like item1, item2, item10, not item1, item10, item2)
 
 ### Comments/Description/Learnings
-(like item1, item2, item10, not item1, item10, item2)

@@ -1,6 +1,6 @@
-# Week 3 .
+# Week 5
 
-### Title: Binary search tree
+### Title: URL query string parser
 
 ### Problem statement
 Write a program in Ruby that will parse query strings from a URL
