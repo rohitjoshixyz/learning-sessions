@@ -14,6 +14,8 @@ class Node
 end
 
 class BST
+  include Enumerable
+
   attr_reader :root, :node_count
 
   def initialize
@@ -39,6 +41,12 @@ class BST
       result = postorder(@root)
     end
     p result
+  end
+
+  def each(&block)
+    return to_enum(:each) unless block_given?
+
+    inorder(@root).each(&block)
   end
 
   private
@@ -115,3 +123,5 @@ tree.remove(2)
 tree.traverse("inorder")
 tree.remove(7)
 tree.traverse("inorder")
+
+puts tree.count # We can do this because of Enumerable#count
