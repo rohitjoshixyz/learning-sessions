@@ -54,10 +54,15 @@ class MinHeap
   end
 
   def insert(value)
-    @data.push(value) # Add the new element to the end of the array.
     @size += 1
+    set(@size, value)
 
-    heapify(@size)
+    i = @size
+
+    while i > 1 && get(i) > get(parent(i))
+      swap(i, parent(i))
+      i = parent(i)
+    end
   end
 
   def peek
@@ -82,6 +87,10 @@ class MinHeap
   private
     def get(x)
       data[x - 1]
+    end
+
+    def set(x, value)
+      @data[x - 1] = value
     end
 
     def swap(x, y)
