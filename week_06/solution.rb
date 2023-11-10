@@ -19,7 +19,7 @@ class Solution
       min_heap.insert(new_node)
     end
 
-    min_heap.extract # return the root node of the huffman tree
+    min_heap.peek # return the root node of the huffman tree
   end
 
   def get_codes(node, path = "", codes = {})
@@ -38,8 +38,24 @@ class Solution
     end.join("")
   end
 
-  def decode(input)
+  def decode(encoded_string, root)
+    current = root
+    decoded_string = ""
 
+    encoded_string.each_char do |char|
+      if char == "0"
+        current = current.left
+      else
+        current = current.right
+      end
+
+      if current.left.nil? && current.right.nil? # if leaf node
+        decoded_string += current.symbol
+        current = root # reset current to root
+      end
+    end
+
+    decoded_string
   end
 end
 
@@ -51,5 +67,18 @@ sol = Solution.new
 
 root = sol.build_huffman_tree("aaabbccc")
 codes = sol.get_codes(root)
-sol.encode("aaabbccc", codes)
+encoded_string = sol.encode("aaabbccc", codes)
+decoded_string = sol.decode(encoded_string, root)
+
 p codes
+p encoded_string
+p decoded_string
+puts "------------------------"
+root = sol.build_huffman_tree("aaabccdeeeeeffg")
+codes = sol.get_codes(root)
+encoded_string = sol.encode("aaabccdeeeeeffg", codes)
+decoded_string = sol.decode(encoded_string, root)
+
+p codes
+p encoded_string
+p decoded_string
