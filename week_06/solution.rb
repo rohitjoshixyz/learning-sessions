@@ -19,17 +19,18 @@ class Solution
       min_heap.insert(new_node)
     end
 
-    print_codes(min_heap.extract)
+    p print_codes(min_heap.extract)
   end
 
-  def print_codes(node, path = "")
+  def print_codes(node, path = "", codes = {})
     if node.left.nil? && node.right.nil?
-      puts "#{node.symbol} #{path}"
-      return
+      codes[node.symbol] = path
     end
 
-    print_codes(node.left, path + "0") if node.left
-    print_codes(node.right, path + "1") if node.right
+    print_codes(node.left, path + "0", codes) if node.left
+    print_codes(node.right, path + "1", codes) if node.right
+
+    codes
   end
 
   def decode(input)
