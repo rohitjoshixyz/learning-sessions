@@ -65,20 +65,30 @@ sol = Solution.new
 # sol.build_huffman_tree("aaabbb")
 # puts "------------------------"
 
-root = sol.build_huffman_tree("aaabbccc")
-codes = sol.get_codes(root)
-encoded_string = sol.encode("aaabbccc", codes)
-decoded_string = sol.decode(encoded_string, root)
+# root = sol.build_huffman_tree("aaabbccc")
+# codes = sol.get_codes(root)
+# encoded_string = sol.encode("aaabbccc", codes)
+# decoded_string = sol.decode(encoded_string, root)
 
-p codes
-p encoded_string
-p decoded_string
-puts "------------------------"
-root = sol.build_huffman_tree("aaabccdeeeeeffg")
-codes = sol.get_codes(root)
-encoded_string = sol.encode("aaabccdeeeeeffg", codes)
-decoded_string = sol.decode(encoded_string, root)
+# p codes
+# p encoded_string
+# p decoded_string
+# puts "------------------------"
+# root = sol.build_huffman_tree("aaabccdeeeeeffg")
+# codes = sol.get_codes(root)
+# encoded_string = sol.encode("aaabccdeeeeeffg", codes)
+# decoded_string = sol.decode(encoded_string, root)
 
-p codes
-p encoded_string
-p decoded_string
+# p codes
+# p encoded_string
+# p decoded_string
+
+input = File.read("./input.txt")
+# p input.each_char.tally
+solution = Solution.new
+root = solution.build_huffman_tree(input)
+codes = solution.get_codes(root)
+
+# encoded_string = solution.encode(input, codes)
+# File.write("output.txt", [encoded_string].pack("b*"))
+

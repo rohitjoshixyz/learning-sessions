@@ -1,5 +1,5 @@
 class Node
-  attr_accessor :symbol, :freq, :left, :right, :huff
+  attr_accessor :symbol, :freq, :left, :right
   include Comparable
 
   def initialize(symbol, freq, left = nil, right = nil)
@@ -14,10 +14,6 @@ class Node
   end
 
   def to_s
-    "#{symbol}#{freq}"
-  end
-
-  def to_str
     "#{symbol}#{freq}"
   end
 end

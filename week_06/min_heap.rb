@@ -59,7 +59,7 @@ class MinHeap
 
     i = @size
 
-    while i > 1 && get(i) > get(parent(i))
+    while i > 1 && get(i) < get(parent(i))
       swap(i, parent(i))
       i = parent(i)
     end
