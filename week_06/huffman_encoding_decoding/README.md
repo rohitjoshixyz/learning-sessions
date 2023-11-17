@@ -20,3 +20,5 @@ https://www.scaler.com/topics/huffman-coding/
 
 Creating a Ruby executable
 https://dev.to/jvon1904/how-to-create-a-ruby-executable-j70
+
+https://nts.strzibny.name/making-a-ruby-executable-with-ruby-packer
