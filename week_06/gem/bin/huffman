@@ -3,9 +3,12 @@
 require_relative "../lib/node"
 require_relative "../lib/min_heap"
 require_relative "../lib/tree_serializer"
+require_relative "../lib/file_operations"
 require "optparse"
 
 class Solution
+  include FileOperations
+
   attr_reader :min_heap
 
   def build_huffman_tree(input)
@@ -85,7 +88,7 @@ OptionParser.new do |opts|
     @options[:operation] = "zip"
   end
   opts.on("-u", "--unzip", "Extract the input file") do
-    @options[:operation] = "zip"
+    @options[:operation] = "unzip"
   end
   opts.on("-h", "--help", "Prints this help") do
     puts opts
@@ -105,6 +108,30 @@ if @options[:operation] == "encode"
 elsif @options[:operation] == "decode"
   sol = Solution.new
   root = TreeSerializer.deserialize(ARGV[1])
+
   puts "Codes: #{sol.get_codes(root)}"
   puts sol.decode(ARGV[0], root)
+elsif @options[:operation] == "zip"
+  sol = Solution.new
+
+  input = File.read(ARGV[0])
+
+  root = sol.build_huffman_tree(input)
+  codes = sol.get_codes(root)
+  serialized_tree = TreeSerializer.serialize(root)
+
+  sol.write_file_with_tree(serialized_tree, sol.encode(input, codes))
+elsif @options[:operation] == "unzip"
+  sol = Solution.new
+
+  serialized_tree, encoded_string = sol.read_file_with_tree(ARGV[0])
+  root = TreeSerializer.deserialize(serialized_tree)
+
+  puts "Encoded string: #{encoded_string}"
+  puts "Codes: #{sol.get_codes(root)}"
+  puts "Decoded string: #{sol.decode(encoded_string, root)}"
 end
+
+# cd week_06/gem/bin
+# huffman -z input.txt
+# huffman -u output.hzip
