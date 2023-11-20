@@ -3,7 +3,7 @@ require_relative "node"
 class TreeSerializer
   def self.serialize(root)
     return "#" if root.nil?
-    ["#{root.symbol}|#{root.freq}", serialize(root.left), serialize(root.right)].join(",")
+    ["#{root.symbol}|#{root.freq}", serialize(root.left), serialize(root.right)].join(";node-delimiter;")
   end
 
   def self.des_list(nodes)
@@ -20,6 +20,6 @@ class TreeSerializer
   def self.deserialize(data)
     return nil if data.nil?
 
-    des_list(data.split(","))
+    des_list(data.split(";node-delimiter;"))
   end
 end
