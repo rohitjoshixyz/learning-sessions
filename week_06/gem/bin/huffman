@@ -1,0 +1,110 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/node"
+require_relative "../lib/min_heap"
+require_relative "../lib/tree_serializer"
+require "optparse"
+
+class Solution
+  attr_reader :min_heap
+
+  def build_huffman_tree(input)
+    nodes = []
+    input.each_char.tally.each do |symbol, freq|
+      nodes << Node.new(symbol, freq)
+    end
+
+    min_heap = MinHeap.new(nodes)
+    min_heap.build
+
+    while min_heap.size > 1
+      left = min_heap.extract
+      right = min_heap.extract
+      new_node = Node.new(left.symbol + right.symbol, left.freq + right.freq, left, right)
+
+      min_heap.insert(new_node)
+    end
+
+    min_heap.peek # return the root node of the huffman tree
+  end
+
+  def inorder(root)
+    return [] if root.nil?
+
+    inorder(root.left) + [root.to_s] + inorder(root.right)
+  end
+
+  def get_codes(node, path = "", codes = {})
+    if node.left.nil? && node.right.nil?
+      codes[node.symbol] = path
+    end
+
+    get_codes(node.left, path + "0", codes) if node.left
+    get_codes(node.right, path + "1", codes) if node.right
+    codes
+  end
+
+  def encode(input, codes)
+    input.each_char.map do |char|
+      codes[char]
+    end.join("")
+  end
+
+  def decode(encoded_string, root)
+    current = root
+    decoded_string = ""
+
+    encoded_string.each_char do |char|
+      if char == "0"
+        current = current.left
+      else
+        current = current.right
+      end
+
+      if current.left.nil? && current.right.nil? # if leaf node
+        decoded_string += current.symbol
+        current = root # reset current to root
+      end
+    end
+
+    decoded_string
+  end
+end
+
+@options = {}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: huffman [options] [input_string|filepath] [serialized_tree]"
+  opts.on("-e", "--encode", "Huffman encode the input string") do
+    @options[:operation] = "encode"
+  end
+  opts.on("-d", "--decode", "Huffman decode the input string") do
+    @options[:operation] = "decode"
+  end
+  opts.on("-z", "--zip", "Compress the input file") do
+    @options[:operation] = "zip"
+  end
+  opts.on("-u", "--unzip", "Extract the input file") do
+    @options[:operation] = "zip"
+  end
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+end.parse!
+
+if @options[:operation] == "encode"
+  sol = Solution.new
+  root = sol.build_huffman_tree(ARGV[0])
+  serialized_tree = TreeSerializer.serialize(root)
+
+  root = TreeSerializer.deserialize(serialized_tree)
+  codes = sol.get_codes(root)
+  puts "Encoded string: #{sol.encode(ARGV[0], codes)}"
+  puts "Serialized tree: #{serialized_tree}"
+elsif @options[:operation] == "decode"
+  sol = Solution.new
+  root = TreeSerializer.deserialize(ARGV[1])
+  puts "Codes: #{sol.get_codes(root)}"
+  puts sol.decode(ARGV[0], root)
+end
