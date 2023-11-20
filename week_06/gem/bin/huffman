@@ -77,17 +77,17 @@ end
 @options = {}
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: huffman [options] [input_string|filepath] [serialized_tree]"
-  opts.on("-e", "--encode", "Huffman encode the input string") do
+  opts.banner = "Usage: huffman [options] [arguments]"
+  opts.on("-e", "--encode", "Huffman encode the input string Arguments: [input_string]") do
     @options[:operation] = "encode"
   end
-  opts.on("-d", "--decode", "Huffman decode the input string") do
+  opts.on("-d", "--decode", "Huffman decode the input string Arguments: [encoded_string]") do
     @options[:operation] = "decode"
   end
-  opts.on("-z", "--zip", "Compress the input file") do
+  opts.on("-z", "--zip", "Compress the input file. Arguments: [input_filepath]") do
     @options[:operation] = "zip"
   end
-  opts.on("-u", "--unzip", "Extract the input file") do
+  opts.on("-u", "--unzip", "Extract the input file. Arguments: [compressed_filepath]") do
     @options[:operation] = "unzip"
   end
   opts.on("-h", "--help", "Prints this help") do
@@ -101,7 +101,6 @@ if @options[:operation] == "encode"
   root = sol.build_huffman_tree(ARGV[0])
   serialized_tree = TreeSerializer.serialize(root)
 
-  root = TreeSerializer.deserialize(serialized_tree)
   codes = sol.get_codes(root)
   puts "Encoded string: #{sol.encode(ARGV[0], codes)}"
   puts "Serialized tree: #{serialized_tree}"
@@ -109,8 +108,8 @@ elsif @options[:operation] == "decode"
   sol = Solution.new
   root = TreeSerializer.deserialize(ARGV[1])
 
+  puts "Decoded string: #{sol.decode(ARGV[0], root)}"
   puts "Codes: #{sol.get_codes(root)}"
-  puts sol.decode(ARGV[0], root)
 elsif @options[:operation] == "zip"
   sol = Solution.new
 
@@ -127,10 +126,14 @@ elsif @options[:operation] == "unzip"
   serialized_tree, encoded_string = sol.read_file_with_tree(ARGV[0])
   root = TreeSerializer.deserialize(serialized_tree)
 
-  puts "Encoded string: #{encoded_string}"
-  puts "Codes: #{sol.get_codes(root)}"
-  puts "Decoded string: #{sol.decode(encoded_string, root)}"
+  File.open("extracted.txt", "w") do |file|
+    file.write sol.decode(encoded_string, root)
+  end
 end
+
+# huffman -e "Hello"
+
+# huffman -d "1101000111" "leHo|5;node-delimiter;l|2;node-delimiter;#;node-delimiter;#;node-delimiter;eHo|3;node-delimiter;e|1;node-delimiter;#;node-delimiter;#;node-delimiter;Ho|2;node-delimiter;H|1;node-delimiter;#;node-delimiter;#;node-delimiter;o|1;node-delimiter;#;node-delimiter;#"
 
 # cd week_06/gem/bin
 # huffman -z input.txt
