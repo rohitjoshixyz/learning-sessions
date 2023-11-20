@@ -90,6 +90,9 @@ OptionParser.new do |opts|
   opts.on("-u", "--unzip", "Extract the input file. Arguments: [compressed_filepath]") do
     @options[:operation] = "unzip"
   end
+  opts.on("-c", "--compare", "Compare input and extracted file. Arguments: [input_filepath][compressed_filepath]") do
+    @options[:operation] = "compare"
+  end
   opts.on("-h", "--help", "Prints this help") do
     puts opts
     exit
@@ -129,6 +132,12 @@ elsif @options[:operation] == "unzip"
   File.open("extracted.txt", "w") do |file|
     file.write sol.decode(encoded_string, root)
   end
+elsif @options[:operation] == "compare"
+
+  input = File.read(ARGV[0])
+  extracted = File.read(ARGV[1])
+
+  puts input == extracted
 end
 
 # huffman -e "Hello"
