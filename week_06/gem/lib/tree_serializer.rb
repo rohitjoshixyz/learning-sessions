@@ -1,17 +1,6 @@
 require_relative "node"
 
 class TreeSerializer
-  def self.serialize(root, serialized = [])
-    if root.nil?
-      serialized << nil
-    else
-      serialized << "#{root.symbol}|#{root.freq}"
-      serialized = serialize(root.left, serialized)
-      serialized = serialize(root.right, serialized)
-    end
-    serialized
-  end
-
   def self.serialize(root)
     return "#" if root.nil?
     ["#{root.symbol}|#{root.freq}", serialize(root.left), serialize(root.right)].join(",")
