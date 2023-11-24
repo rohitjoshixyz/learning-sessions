@@ -83,7 +83,7 @@ sol = Solution.new
 # p encoded_string
 # p decoded_string
 
-input = File.read("./input.txt")
+input = File.read("input.txt")
 # p input.each_char.tally
 solution = Solution.new
 root = solution.build_huffman_tree(input)

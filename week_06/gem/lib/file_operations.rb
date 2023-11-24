@@ -13,7 +13,7 @@ module FileOperations
     file = File.open(file_path, "rb")
     size = file.read(4).unpack("N")[0]
     serialized_tree = file.read(size).unpack("m").first
-    p serialized_tree
+    # p serialized_tree
     encoded_string = file.read.unpack("B*").first
 
     [serialized_tree, encoded_string]

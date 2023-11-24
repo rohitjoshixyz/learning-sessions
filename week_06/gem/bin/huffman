@@ -55,7 +55,7 @@ class Solution
 
   def decode(encoded_string, root)
     current = root
-    decoded_string = ""
+    decoded_string_array = []
 
     encoded_string.each_char do |char|
       if char == "0"
@@ -65,12 +65,12 @@ class Solution
       end
 
       if current.left.nil? && current.right.nil? # if leaf node
-        decoded_string += current.symbol
+        decoded_string_array << current.symbol
         current = root # reset current to root
       end
     end
 
-    decoded_string
+    decoded_string_array.join("")
   end
 end
 
@@ -111,8 +111,8 @@ elsif @options[:operation] == "decode"
   sol = Solution.new
   root = TreeSerializer.deserialize(ARGV[1])
 
-  puts "Decoded string: #{sol.decode(ARGV[0], root)}"
-  puts "Codes: #{sol.get_codes(root)}"
+  # puts "Decoded string: #{sol.decode(ARGV[0], root)}"
+  # puts "Codes: #{sol.get_codes(root)}"
 elsif @options[:operation] == "zip"
   sol = Solution.new
 
@@ -129,9 +129,7 @@ elsif @options[:operation] == "unzip"
   serialized_tree, encoded_string = sol.read_file_with_tree(ARGV[0])
   root = TreeSerializer.deserialize(serialized_tree)
 
-  File.open("extracted.txt", "w") do |file|
-    file.write sol.decode(encoded_string, root)
-  end
+  File.write("extracted.txt", sol.decode(encoded_string, root))
 elsif @options[:operation] == "compare"
 
   input = File.read(ARGV[0])
