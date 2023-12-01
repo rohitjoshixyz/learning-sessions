@@ -12,5 +12,11 @@ https://medium.com/rubycademy/ruby-bitwise-operators-da57763fa368
 
 https://www.youtube.com/watch?v=53O9J2J5i14
 
+https://github.com/Zunawe/md5-c/blob/main/md5.c
+
+https://github.com/timvandermeij/md5.py/blob/master/md5.py
+
+https://www.ietf.org/rfc/rfc1321.txt
+
 1. Append Padding Bits: We add padding bits in the original message in such a way that the total length of the message is 64 bits less than the exact multiple of 512
 2. 

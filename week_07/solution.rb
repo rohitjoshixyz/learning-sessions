@@ -1,33 +1,54 @@
 class Solution
-  attr_accessor :input, :binary_input, :binary_input_length
+  attr_reader :input, :binary_input
+
+  K = [0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
+    0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
+    0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
+    0x6b901122, 0xfd987193, 0xa679438e, 0x49b40821,
+    0xf61e2562, 0xc040b340, 0x265e5a51, 0xe9b6c7aa,
+    0xd62f105d, 0x02441453, 0xd8a1e681, 0xe7d3fbc8,
+    0x21e1cde6, 0xc33707d6, 0xf4d50d87, 0x455a14ed,
+    0xa9e3e905, 0xfcefa3f8, 0x676f02d9, 0x8d2a4c8a,
+    0xfffa3942, 0x8771f681, 0x6d9d6122, 0xfde5380c,
+    0xa4beea44, 0x4bdecfa9, 0xf6bb4b60, 0xbebfbc70,
+    0x289b7ec6, 0xeaa127fa, 0xd4ef3085, 0x04881d05,
+    0xd9d4d039, 0xe6db99e5, 0x1fa27cf8, 0xc4ac5665,
+    0xf4292244, 0x432aff97, 0xab9423a7, 0xfc93a039,
+    0x655b59c3, 0x8f0ccc92, 0xffeff47d, 0x85845dd1,
+    0x6fa87e4f, 0xfe2ce6e0, 0xa3014314, 0x4e0811a1,
+    0xf7537e82, 0xbd3af235, 0x2ad7d2bb, 0xeb86d391]
+
+  S = [7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22,
+    5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20, 5,  9, 14, 20,
+    4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23,
+    6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21]
+
+  A = 0x01234567
+  B = 0x89abcdef
+  C = 0xfedcba98
+  D = 0x76543210
 
   def initialize(input)
     @input = input
     @binary_input = []
-    @j = 0x67425301
-    @k = 0xEDFCBA45
-    @l = 0x98CBADFE
-    @m = 0x13DCE476
+  end
+  
+  def binary_input_array
+    input.unpack("B*").first.split("")
   end
 
-  def add_padding_bits
-    i = 0
-    binary_input = input.unpack("B*").first.split("")
-    @binary_input_length = binary_input.length
+  def padding_bits_array
+    array = []
+    array << "1"
 
-    binary_input.push("1")
-    padding_length = 1
-    while (@binary_input_length + padding_length + 64) % 512 != 0 do
-      padding_length += 1
-      binary_input.push("0")
+    while (binary_input_array.length + array.length + 64) % 512 != 0
+      array << "0" 
     end
-    puts padding_length
-    binary_input
+    array
   end
 
-  def append_length_bits
-    length = @binary_input_length.to_s(2).rjust(64, "0")
-    binary_input.push(length)
+  def length_bits_array
+    binary_input_array.length.to_s(2).rjust(64, "0").split("")
   end
 
   def f(k, l, m)
@@ -50,12 +71,15 @@ class Solution
     (a + b) % 2**32
   end
 
-  def round_f(a, b, c, d, k, s, i)
-    a = add_modulo_32(a, f(b, c, d))
-    a = add_modulo_32(a, binary_input[k].to_i(2))
-    a = add_modulo_32(a, i)
-    a = a << s | a >> (32 - s)
-    a = add_modulo_32(a, b)
+  def shift_left(word, n)
+    word << n | word >> (32 - n)
+  end
+
+  def initialize_buffers(a, b, c, d)
+    @a = a
+    @b = b
+    @c = c
+    @d = d
   end
 
   def round_g(a, b, c, d, k, s, i)
@@ -83,8 +107,12 @@ class Solution
   end
 
   def call
-    add_padding_bits
-    append_length_bits
+    message_bit_array = binary_input_array + padding_bits_array + length_bits_array
+    message_bit_array.each_slice(512) do |slice|
+      # Perform the operations for each 512-bit chunk of message
+    end
   end
 end
+
+Solution.new("abc").call
 
