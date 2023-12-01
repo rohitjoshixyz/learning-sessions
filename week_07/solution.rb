@@ -1,5 +1,5 @@
 class Solution
-  attr_accessor :input, :binary_input, :binary_input_length, :j, :k, :l, :m
+  attr_accessor :input, :binary_input, :binary_input_length
 
   def initialize(input)
     @input = input
@@ -28,6 +28,58 @@ class Solution
   def append_length_bits
     length = @binary_input_length.to_s(2).rjust(64, "0")
     binary_input.push(length)
+  end
+
+  def f(k, l, m)
+    (k & l) | (~k & m)
+  end
+
+  def g(k, l, m)
+    (k & l) | (l & ~m)
+  end
+
+  def h(k, l, m)
+    k ^ l ^ m
+  end
+
+  def i(k, l, m)
+    l ^ (k | ~m)
+  end
+
+  def add_modulo_32(a, b)
+    (a + b) % 2**32
+  end
+
+  def round_f(a, b, c, d, k, s, i)
+    a = add_modulo_32(a, f(b, c, d))
+    a = add_modulo_32(a, binary_input[k].to_i(2))
+    a = add_modulo_32(a, i)
+    a = a << s | a >> (32 - s)
+    a = add_modulo_32(a, b)
+  end
+
+  def round_g(a, b, c, d, k, s, i)
+    a = add_modulo_32(a, g(b, c, d))
+    a = add_modulo_32(a, binary_input[k].to_i(2))
+    a = add_modulo_32(a, i)
+    a = a << s | a >> (32 - s)
+    a = add_modulo_32(a, b)
+  end
+
+  def round_h(a, b, c, d, k, s, i)
+    a = add_modulo_32(a, h(b, c, d))
+    a = add_modulo_32(a, binary_input[k].to_i(2))
+    a = add_modulo_32(a, i)
+    a = a << s | a >> (32 - s)
+    a = add_modulo_32(a, b)
+  end
+
+  def round_i(a, b, c, d, k, s, i)
+    a = add_modulo_32(a, i(b, c, d))
+    a = add_modulo_32(a, binary_input[k].to_i(2))
+    a = add_modulo_32(a, i)
+    a = a << s | a >> (32 - s)
+    a = add_modulo_32(a, b)
   end
 
   def call
