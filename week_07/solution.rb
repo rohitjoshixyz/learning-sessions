@@ -82,6 +82,14 @@ class Solution
     @d = d
   end
 
+  def round_f(a, b, c, d, k, s, i)
+    a = add_modulo_32(a, f(b, c, d))
+    a = add_modulo_32(a, binary_input[k].to_i(2))
+    a = add_modulo_32(a, i)
+    a = a << s | a >> (32 - s)
+    a = add_modulo_32(a, b)
+  end
+
   def round_g(a, b, c, d, k, s, i)
     a = add_modulo_32(a, g(b, c, d))
     a = add_modulo_32(a, binary_input[k].to_i(2))
