@@ -1,7 +1,7 @@
-hands = File.read("ADVENT_OF_CODE_2023/day_07/test_input_2.txt").split("\n").map {|line| line.split(" ")}.sort_by{|hand, bid| - hand}.to_h
+hands = File.read("ADVENT_OF_CODE_2023/day_07/input_1.txt").split("\n").map {|line| line.split(" ")}.to_h
 
 class Hand
-  attr_reader :hand
+  attr_reader :hand, :bid
   def initialize(hand, bid)
     @hand = hand.split("")
     @bid = bid.to_i
@@ -30,25 +30,25 @@ class Hand
 
     if tally_values.max == 5
       # p "Five of a kind"
-      return 70000000
+      return 70000000000000
     elsif tally_values.max == 4
       # p "Four of a kind"
-      return 60000000
+      return 60000000000000
     elsif tally_values.count(3) == 1 && tally_values.count(2) == 1
       # p "Full house"
-      return 50000000
+      return 50000000000000
     elsif tally_values.max == 3
       # p "Three of a kind"
-      return 40000000
+      return 40000000000000
     elsif tally_values.count(2) == 2
       # p "Two pair"
-      return 30000000
+      return 30000000000000
     elsif tally_values.count(2) == 1
       # p "One pair"
-      return 20000000
+      return 20000000000000
     else
       # p "High card"
-      return 10000000
+      return 10000000000000
     end
   end
 
@@ -58,7 +58,7 @@ class Hand
     score = 0
 
     while index <= 4 do
-      score = score + card_points[hand[index]] * ("1" + "0" * weight).to_i
+      score = score + card_points[hand[index]] * ("1" + "00" * weight).to_i
       # puts "#{hand[index]} :#{score}"
       index += 1
       weight -= 1
@@ -67,7 +67,7 @@ class Hand
   end
 
   def total_score
-    first_ordering + second_ordering + hand.map(&:ord).sum / 1000.to_f
+    first_ordering + second_ordering
   end
 
   def <=>(other)
@@ -96,3 +96,6 @@ p answer_array.sum
 # 246416873 is low
 # 246416951 is low
 # 254583627 is high
+# 246416873
+# 246400861
+# 246424613 should be the answer
