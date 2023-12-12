@@ -1,32 +1,4 @@
-hands = File.read("ADVENT_OF_CODE_2023/day_07/test_input_2.txt").split("\n").map {|line| line.split(" ")}.to_h
-p hands
-def card_points
-  {
-    "J" => 1,
-    "2" => 2,
-    "3" => 3,
-    "4" => 4,
-    "5" => 5,
-    "6" => 6,
-    "7" => 7,
-    "8" => 8,
-    "9" => 9,
-    "T" => 10,
-    "Q" => 12,
-    "K" => 13,
-    "A" => 14
-  }
-end
-
-hands = hands.map do |hand, bid|
-  hand = hand.split("")
-  if hand.tally.keys.include?("J")
-    max = hand.max_by{|k,v| card_points[k] + v.to_i * 100}
-    hand = hand.map{|char| char == "J" ? max : char }
-  end
-  [hand.join(""), bid]
-end.to_h
-p hands
+hands = File.read("ADVENT_OF_CODE_2023/day_07/input_1.txt").split("\n").map {|line| line.split(" ")}.to_h
 
 class Hand
   attr_reader :hand, :bid
@@ -53,57 +25,64 @@ class Hand
     }
   end
 
-  # def transform_hand
-  #   if hand.tally.keys.include?("J")
-  #     old_hand = hand
-  #     max = hand.max_by{|k,v| v}
-  #     @hand = hand.map{|char| char == "J" ? max : char }
-  #   end
-  # end
-
   def first_ordering
     tally_values = hand.tally.values
-
     if tally_values.max == 5
       # p "Five of a kind"
-      return 70000000000000
+      return 7
     elsif tally_values.max == 4
       # p "Four of a kind"
-      return 60000000000000
+      if hand.count("J") == 1
+        return 7
+      elsif hand.count("J") == 4
+        return 7
+      else
+        return 6
+      end
     elsif tally_values.count(3) == 1 && tally_values.count(2) == 1
       # p "Full house"
-      return 50000000000000
+      if hand.count("J") == 3
+        return 7
+      elsif hand.count("J") == 2
+        return 7
+      else
+        return 5
+      end
     elsif tally_values.max == 3
       # p "Three of a kind"
-      return 40000000000000
+      if hand.count("J") == 3
+        return 6
+      elsif hand.count("J") == 1
+        return 6
+      else
+        return 4
+      end
     elsif tally_values.count(2) == 2
       # p "Two pair"
-      return 30000000000000
+      if hand.count("J") == 2
+        return 6
+      elsif hand.count("J") == 1
+        return 5
+      else
+        return 3
+      end
     elsif tally_values.count(2) == 1
       # p "One pair"
-      return 20000000000000
+      return hand.include?("J") ?  4 : 2
     else
       # p "High card"
-      return 10000000000000
+     return hand.include?("J") ?  2 : 1
     end
   end
 
   def second_ordering
-    index = 0
-    weight = 4
-    score = 0
-
-    while index <= 4 do
-      score = score + card_points[@hand[index]] * ("1" + "00" * weight).to_i
-      puts "#{hand[index]} :#{score}"
-      index += 1
-      weight -= 1
+    hand.map do |card|
+      card_points[card]
     end
-    score
   end
 
   def total_score
-    first_ordering + second_ordering
+    [first_ordering, second_ordering]
   end
 
   def <=>(other)
@@ -115,18 +94,12 @@ hand_objects = hands.map do |hand, bid|
   Hand.new(hand, bid)
 end
 
+sum = hand_objects.sort.map.with_index do |hand, index|
+  # p hand.hand
+  (index + 1) * hand.bid
+end.sum
 
-keys = hand_objects.sort.map {|obj| obj.hand.join("")}
-p keys
-answer_array = []
-answer = keys.each_with_index do |key, index|
-  puts "key #{key}, rank #{index + + 1}, bid #{hands[key].to_i}"
-  rank = index + 1
-  bid = hands[key].to_i
-
-  answer_array << rank * bid
-end
-
-p answer_array.sum
-
-# 238137728 is low
+p sum
+# 247721830 is low
+# 247656957 is low
+# 248256639 should be correct

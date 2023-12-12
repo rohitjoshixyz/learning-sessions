@@ -1,0 +1,40 @@
+Q1234
+Q123J
+
+Q12JQ
+33332
+AAAAQ
+
+
+2AAAA
+3333A
+
+33456
+3345J
+
+JJ345
+
+33445
+3344J
+33JJ5
+
+JJ444
+
+888J4
+JJJ81
+
+JJJJ4
+4444J
+
+J3444
+
+High card => Pair
+Pair => Three of a kind with 1J or 2J
+Two pairs => Full house (1J) OR 4 of a kind (2J)
+3 of a kind with 1J or 3J => 4 of a kind
+Full house with 3 or 2 jokers => 5 of a kind, full house with 1J
+4 of a kind with 1 or 4 jokers => 5 of a kind
+5 of a kind with 5 jokers => 5 of a kind
+
+Replace Joker points with the points
+

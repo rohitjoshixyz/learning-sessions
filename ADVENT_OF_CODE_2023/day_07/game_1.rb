@@ -30,44 +30,36 @@ class Hand
 
     if tally_values.max == 5
       # p "Five of a kind"
-      return 70000000000000
+      return 7
     elsif tally_values.max == 4
       # p "Four of a kind"
-      return 60000000000000
+      return 6
     elsif tally_values.count(3) == 1 && tally_values.count(2) == 1
       # p "Full house"
-      return 50000000000000
+      return 5
     elsif tally_values.max == 3
       # p "Three of a kind"
-      return 40000000000000
+      return 4
     elsif tally_values.count(2) == 2
       # p "Two pair"
-      return 30000000000000
+      return 3
     elsif tally_values.count(2) == 1
       # p "One pair"
-      return 20000000000000
+      return 2
     else
       # p "High card"
-      return 10000000000000
+      return 1
     end
   end
 
   def second_ordering
-    index = 0
-    weight = 4
-    score = 0
-
-    while index <= 4 do
-      score = score + card_points[hand[index]] * ("1" + "00" * weight).to_i
-      # puts "#{hand[index]} :#{score}"
-      index += 1
-      weight -= 1
+    hand.map do |card|
+      card_points[card]
     end
-    score
   end
 
   def total_score
-    first_ordering + second_ordering
+    [first_ordering, second_ordering]
   end
 
   def <=>(other)
@@ -79,19 +71,13 @@ hand_objects = hands.map do |hand, bid|
   Hand.new(hand, bid)
 end
 
+sum = hand_objects.sort.map.with_index do |hand, index|
+    (index + 1) * hand.bid
+end.sum
 
-keys = hand_objects.sort.map {|obj| obj.hand.join("")}
-p keys
-answer_array = []
-answer = keys.each_with_index do |key, index|
+p sum
 
-  rank = index + 1
-  bid = hands[key].to_i
-
-  answer_array << rank * bid
-end
-
-p answer_array.sum
+# p hand_objects
 
 # 246416873 is low
 # 246416951 is low
