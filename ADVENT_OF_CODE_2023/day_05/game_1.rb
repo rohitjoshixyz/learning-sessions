@@ -15,6 +15,7 @@ mappings = [seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_ligh
             water_to_light, light_to_temperature, temperature_to_humidity,
             humidity_to_location]
 
+
 def next_seed(seed, mapping)
   mapping.each do |map|
     dest, source, range  = map
@@ -27,7 +28,7 @@ def next_seed(seed, mapping)
 end
 
 locations = seeds.map do |seed|
-  puts seed
+  # puts seed
   seed = next_seed(seed, seed_to_soil)
   seed = next_seed(seed, soil_to_fertilizer)
   seed = next_seed(seed, fertilizer_to_water)
@@ -36,4 +37,3 @@ locations = seeds.map do |seed|
   seed = next_seed(seed, temperature_to_humidity)
   seed = next_seed(seed, humidity_to_location)
 end
-
