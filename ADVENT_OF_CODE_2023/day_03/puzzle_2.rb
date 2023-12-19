@@ -1,6 +1,6 @@
 
-line_length = File.readlines("ADVENT_OF_CODE_2023/day_03/test_input.txt", chomp: true).first.length
-lines = File.readlines("ADVENT_OF_CODE_2023/day_03/test_input.txt", chomp: true)
+line_length = File.readlines("ADVENT_OF_CODE_2023/day_03/input_1.txt", chomp: true).first.length
+lines = File.readlines("ADVENT_OF_CODE_2023/day_03/input_1.txt", chomp: true)
 grid = lines.map { |line| line.split("").map { |char| ["&", "=", "@", "$", "-", "+", "#", "/", "%"].include?(char) ? "#" : char } }
 # p grid.flatten.uniq.sort
 part_number_array = []
@@ -19,38 +19,35 @@ def get_neighbours(x, y, grid)
   neighbours
 end
 
+indices_of_numbers = {}
+sum = 0
 
 lines.each_with_index do |line, line_index|
   number_and_index = []
-
-  # line.scan(/[\d]+/) do |number|  
-  #   grid[line_index][Regexp.last_match.offset(0).first + i] = number.to_i
-  # end
-
   line.scan(/[\d]+/) do |number|
     indices = []
     number.length.times do |i|
-      indices << Regexp.last_match.offset(0).first + i
-      grid[line_index][Regexp.last_match.offset(0).first + i] = number.to_i
+      index = Regexp.last_match.offset(0).first + (line_index * line_length) + i
+      indices_of_numbers[index] = number.to_i
+      grid[line_index][index % line_length] = number.to_i
     end
-    number_and_index << [number.to_i, indices]
   end
+end
 
+lines.each_with_index do |line, line_index|
   star_indices = []
   line.scan(/[*]/) do |star|
     star_indices << Regexp.last_match.offset(0).first + (line_index * line_length)
   end
-  # p star_indices
 
   star_indices.each do |i|
-    
-    number_index = i + (line_index * line_length)
-    neighbours = get_neighbours(i / line_length, i % line_length, grid)
-    
-    if neighbours.select{ |char| char&.match(/\d+/)&.to_a&.count == 2 }
-      p neighbours.select{ |char| char&.match(/\d+/)&.to_a&.count == 2 }
+    star_neighbours = get_neighbours(i / line_length, i % line_length, grid)
+    if star_neighbours.uniq.filter{|num|num.is_a?(Integer)}.count == 2
+      sum += star_neighbours.uniq.filter{|num|num.is_a?(Integer)}.reduce(:*)
     end
   end
 end
-# pp grid
+pp grid
+pp indices_of_numbers
+p sum
 
