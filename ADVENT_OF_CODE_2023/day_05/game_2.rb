@@ -12,16 +12,16 @@ def split_range(input, mappings)
       # puts "Range is completely greater than input range"
     elsif range.begin >= input.begin && range.end <= input.end
       # puts "Range is completely inside the input range"
-      output << [range, true]
+      output << [(range.begin + offset)..(range.end + offset), true]
     elsif range.begin < input.begin && range.end >= input.begin && range.end <= input.end
       # puts "Range is overlapping the input range from left"
-      output << [(input.begin)..(range.end), true]
+      output << [(input.begin + offset)..(range.end + offset), true]
     elsif range.begin >= input.begin && range.begin <= input.end && range.end > input.end
       # puts "Range is overlapping the input range from right"
-      output << [(range.begin)..(input.end), true]
+      output << [(range.begin + offset)..(input.end + offset), true]
     elsif range.begin < input.begin && range.end > input.end
       # puts "Range is greater than input on both ends"
-      output << [(input.begin)..(input.end), true]
+      output << [(input.begin + offset)..(input.end + offset), true]
     else
       puts "Unhandled case Range #{range} Input #{input}"
       exit
@@ -52,7 +52,7 @@ end
 input = File.read("ADVENT_OF_CODE_2023/day_05/test_input.txt")
 seeds = input.match(/^seeds: (.*)seed-to-soil map:$/m)[1].strip.split(" ").map(&:to_i)
 seed_to_soil = input.match(/^seed-to-soil map:(.*)soil-to-fertilizer map:$/m)[1].strip.split("\n").map{|str| str.split(" ").map(&:to_i)}
-p seed_to_soil
+
 soil_to_fertilizer = input.match(/^soil-to-fertilizer map:(.*)fertilizer-to-water map:$/m)[1].strip.split("\n").map{|str| str.split(" ").map(&:to_i)}
 
 fertilizer_to_water = input.match(/^fertilizer-to-water map:(.*)water-to-light map:$/m)[1].strip.split("\n").map{|str| str.split(" ").map(&:to_i)}
@@ -73,8 +73,7 @@ all_mappings = [seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_
   humidity_to_location]
 
 
-p split_range(79..92, get_offset_array(seed_to_soil))
-p split_range(55..67, get_offset_array(seed_to_soil))
+p split_range(55..92, get_offset_array(seed_to_soil))
 
 
 # locations = []

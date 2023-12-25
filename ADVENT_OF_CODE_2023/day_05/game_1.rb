@@ -27,13 +27,15 @@ def next_seed(seed, mapping)
   seed
 end
 
-locations = seeds.map do |seed|
+locations = seeds.map do |number|
   # puts seed
-  seed = next_seed(seed, seed_to_soil)
-  seed = next_seed(seed, soil_to_fertilizer)
-  seed = next_seed(seed, fertilizer_to_water)
-  seed = next_seed(seed, water_to_light)
-  seed = next_seed(seed, light_to_temperature)
-  seed = next_seed(seed, temperature_to_humidity)
-  seed = next_seed(seed, humidity_to_location)
+  seed = number
+  soil = next_seed(seed, seed_to_soil)
+  fertilizer = next_seed(soil, soil_to_fertilizer)
+  water = next_seed(fertilizer, fertilizer_to_water)
+  light = next_seed(water, water_to_light)
+  temperature = next_seed(light, light_to_temperature)
+  humidity = next_seed(temperature, temperature_to_humidity)
+  location = next_seed(humidity, humidity_to_location)
+  puts "Seed#{number} -> Soil#{soil} -> Fertilizer#{fertilizer} -> Water#{water} -> Light#{light} -> Temperature#{temperature} -> Humidity#{humidity} -> Location#{location}"
 end
