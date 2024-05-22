@@ -1,7 +1,9 @@
+require "pry-byebug"
+
 def split_range(input, mappings)
   output = []
   # p input
-  p mappings
+  # p mappings
   mappings.each do |range, offset|
     # p [input.begin, input.end, range.begin, range.end].inspect
     if range.end < input.begin
@@ -12,29 +14,38 @@ def split_range(input, mappings)
       # puts "Range is completely greater than input range"
     elsif range.begin >= input.begin && range.end <= input.end
       # puts "Range is completely inside the input range"
-      output << [(range.begin + offset)..(range.end + offset), true]
+      output << [(range.begin)..(range.end), true, offset]
     elsif range.begin < input.begin && range.end >= input.begin && range.end <= input.end
       # puts "Range is overlapping the input range from left"
-      output << [(input.begin + offset)..(range.end + offset), true]
+      output << [(input.begin)..(range.end), true, offset]
     elsif range.begin >= input.begin && range.begin <= input.end && range.end > input.end
       # puts "Range is overlapping the input range from right"
-      output << [(range.begin + offset)..(input.end + offset), true]
+      output << [(range.begin)..(input.end), true, offset]
     elsif range.begin < input.begin && range.end > input.end
       # puts "Range is greater than input on both ends"
-      output << [(input.begin + offset)..(input.end + offset), true]
+      output << [(input.begin)..(input.end), true, offset]
     else
       puts "Unhandled case Range #{range} Input #{input}"
       exit
     end
   end
+
+  if output.empty?
+    return [input]
+  end
+
   false_ranges = []
+  output = output.sort do |a, b|
+    a[0].begin <=> b[0].begin
+  end
+  # This loop is to find the gaps between the ranges for the output
+  # If we have 1..10 and 15..20, we need to find the gap between 10 and 15 and add a false range 11..14
   output.each_cons(2) do |pair|
     range_1 = pair[0][0]
     range_2 = pair[1][0]
-    next if range_1.end == range_2.begin + 1
+    next if range_2.begin - range_1.end == 1
     false_ranges << [(range_1.end + 1)..(range_2.begin - 1), false]
   end
-
 
   if input.begin < output[0][0].begin
     false_ranges << [(input.begin)..(output[0][0].begin - 1), false]
@@ -44,12 +55,24 @@ def split_range(input, mappings)
     false_ranges << [(output.last[0].end + 1)..(input.end), false]
   end
   
-  output.concat(false_ranges).sort do |a, b|
+  output = output.concat(false_ranges).sort do |a, b|
     a[0].begin <=> b[0].begin
+  end
+
+  output = output.map do |range, bool, offset|
+    if bool == true
+      (range.begin + offset)..(range.end + offset)
+    else
+      range
+    end
+  end
+
+  output.sort do |a, b|
+    a.begin <=> b.begin
   end
 end
 
-input = File.read("ADVENT_OF_CODE_2023/day_05/test_input.txt")
+input = File.read("ADVENT_OF_CODE_2023/day_05/input_1.txt")
 seeds = input.match(/^seeds: (.*)seed-to-soil map:$/m)[1].strip.split(" ").map(&:to_i)
 seed_to_soil = input.match(/^seed-to-soil map:(.*)soil-to-fertilizer map:$/m)[1].strip.split("\n").map{|str| str.split(" ").map(&:to_i)}
 
@@ -65,43 +88,36 @@ def get_offset_array(mappings)
   mappings.map do |dest, source, range|
     offset = dest - source
     [source..(source + range - 1), offset]
+  end.sort do |a, b|
+    a[0].begin <=> b[0].begin
   end
+
 end
 
-all_mappings = [seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light,
-  water_to_light, light_to_temperature, temperature_to_humidity,
+
+# p split_range(79..92, get_offset_array(seed_to_soil))
+# p split_range(55..67, get_offset_array(seed_to_soil))
+
+seed_ranges = seeds.each_slice(2).map do |(start, length)|
+  start..(start + length - 1)
+end
+
+all_mappings = [seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light, light_to_temperature,temperature_to_humidity,
   humidity_to_location]
 
+# p seed_ranges
+all_mappings.each do |mapping|
+  new_ranges = []
 
-p split_range(55..92, get_offset_array(seed_to_soil))
+  seed_ranges.each do |seed_range|
+    new_ranges.concat(split_range(seed_range, get_offset_array(mapping)))
+  end
 
+  seed_ranges = new_ranges
+  # p seed_ranges
+end
 
-# locations = []
-# i = 0
-# min = ranged_seeds.min
-# max = ranged_seeds.max
-# while i < ranged_seeds.length do
-#   if i % 2 == 0
-#     if in_range?(ranged_seeds[i], ranged_seeds[i+1], min, max)
-#       ((ranged_seeds[i])..(ranged_seeds[i+1])).each do |number|
-#         seed = number
-#         soil = next_seed(seed, seed_to_soil)
-#         fertilizer = next_seed(soil, soil_to_fertilizer)
-#         water = next_seed(fertilizer, fertilizer_to_water)
-#         light = next_seed(water, water_to_light)
-#         temperature = next_seed(light, light_to_temperature)
-#         humidity = next_seed(temperature, temperature_to_humidity)
-#         location = next_seed(humidity, humidity_to_location)
-#         puts "Seed#{number} -> Soil#{soil} -> Fertilizer#{fertilizer} -> Water#{water} -> Light#{light} -> Temperature#{temperature} -> Humidity#{humidity} -> Location#{location}"
-#         locations << location
-#       end
-#     end
-#   end
-#   i += 2
-# end
-# # p locations.min
-
-# Add a method to
+p seed_ranges.map { |range| range.begin }.min
 
 # 1048396245 is too high
 # 1267802202 is too high
